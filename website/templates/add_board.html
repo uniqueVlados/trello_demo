@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %} Добавить доску {% endblock %}
+
+{% block page_name %} {% endblock %}
+
+{% block content %}
+
+<div class="card" style="width: 30%">
+    <div class="card-body">
+        <form method="POST" action="{{ url_for('add_board')}}" class="form-horizontal">
+            <h1>Добавить доску</h1>
+            <input class="form-control" type="text" name="board_title" id="board_title" aria-label="...">
+            <button class="btn btn-primary" type="submit">ADD</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

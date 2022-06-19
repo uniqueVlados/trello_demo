@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %} Просмотр доски {% endblock %}
+
+{% block page_name %} Доска {% endblock %}
+
+{% block content %}
+Здесь будет доска
+
+{% for board in boards %}
+
+<div class="card" style="width: 30%">
+    <div class="card-body">
+        <h5 class="card-title">{{board.title}}</h5>
+        <a href="{{url_for('remove_board', board_id=board.id)}}">
+            <button type="button" class="btn-close" aria-label="Close"></button>
+        </a>
+        <ul class="list-group">
+            {% for task in board.tasks%}
+            <li class="list-group-item active" aria-current="true">
+                <label for="check">
+                    <input class="form-check-input me-1"
+                           style="position:relative;margin-left:-20px;left:20px;z-index:1;"
+                           type="checkbox" value=""
+                           id = "check"
+                           {% if task.is_complete %} checked {% endif %}
+                           onchange="{{url_for('save_checkbox', task_id=task.id)}}">
+                    <a href="{{url_for('save_checkbox', task_id=task.id)}} "
+                    style="position:relative;padding-left:20px;z-index:2;"
+                    ></a>
+                </label>
+                {{task.text}} ({{task.date_created}})
+
+                <a href="{{url_for('remove_task', task_id=task.id)}}">
+                    <button type="button" class="btn-close" aria-label="Close"></button>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        <form method="POST" action="{{ url_for('add_task', board_id=board.id) }}" class="form-horizontal">
+            <div class="mb-3">
+                <label for="text" class="form-label"></label>
+                <input type="text" class="form-control" name="text" id="text" placeholder="Новая задача">
+                <button type="submit" class="btn btn-primary inline-block">ADD</button>
+            </div>
+        </form>
+    </div>
+</div>
+</br>
+{% endfor %}
+{% endblock %}
